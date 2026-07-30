@@ -26,6 +26,14 @@ Zoek in `index.html` op de volgende blokken:
 2. **Eerbetoon**: onder de comment `EERBETOON INVULLEN` staat een placeholder voor
    een persoonlijke tekst en foto van het nichtje.
 3. **Contactadres**: onderin de footer, zoek op `[e-mailadres]`.
+4. **Rekeningnummer**: in de doneersectie staat een placeholder
+   `NL00 XXXX 0000 0000 00`. Zoek op de comment `IBAN`, vul het echte
+   nummer en de tenaamstelling in en verwijder de regel
+   "Het rekeningnummer volgt binnenkort".
+
+   De placeholder is met opzet onmiskenbaar nep. Zet er nooit een
+   voorbeeld-IBAN neer die er echt uitziet: dit is een openbare
+   doneerpagina en bezoekers maken daadwerkelijk geld over.
 
 De foto van Corné staat al op de site (`images/corne.jpg`).
 
