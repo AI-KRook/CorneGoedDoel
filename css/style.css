@@ -42,7 +42,7 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: clamp(2.5rem, 6.5vw, 4.75rem);
+  font-size: clamp(2.5rem, 6.5vw, 5.25rem);
 }
 
 h1 em {
@@ -81,11 +81,13 @@ a:hover { color: var(--accent); }
 /* ---------- layout ---------- */
 
 .container {
-  max-width: 68rem;
+  max-width: 76rem;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
+/* Tekstsecties blijven smal: bij meer dan ongeveer 75 tekens per regel
+   loopt de leesbaarheid terug, hoe breed het scherm ook is. */
 .container.narrow { max-width: 46rem; }
 .container.center { text-align: center; }
 .container.center h2 { margin-left: auto; margin-right: auto; }
@@ -194,9 +196,9 @@ a:hover { color: var(--accent); }
 .hero-inner {
   position: relative;
   z-index: 1;
-  max-width: 68rem;
+  max-width: 76rem;
   margin: 0 auto;
-  padding: clamp(5rem, 14vh, 9rem) 1.5rem 4rem;
+  padding: clamp(5rem, 14vh, 9rem) 2rem 4rem;
 }
 
 .hero-lead {
@@ -740,8 +742,22 @@ a:hover { color: var(--accent); }
 
 /* ---------- responsive ---------- */
 
+/* Op grote schermen de typografie laten meegroeien in plaats van de
+   regels langer te maken. De tekst wordt comfortabeler, het aantal
+   tekens per regel blijft rond de 74. */
+@media (min-width: 1500px) {
+  body { font-size: 1.125rem; }
+
+  .container.narrow { max-width: 48rem; }
+
+  .section { padding: 7rem 0; }
+}
+
 @media (max-width: 800px) {
   .section { padding: 4rem 0; }
+
+  .container,
+  .hero-inner { padding-left: 1.5rem; padding-right: 1.5rem; }
 
   .split {
     grid-template-columns: 1fr;
