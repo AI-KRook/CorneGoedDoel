@@ -15,6 +15,100 @@
 
   <!-- ===================== HERO ===================== -->
   <header class="hero">
+
+    <!-- Achtergrond: het Olympisch Stadion met de Marathontoren, waar de
+         marathon start en finisht. Zelfgetekende SVG, puur decoratief. -->
+    <div class="hero-achtergrond" aria-hidden="true">
+      <svg viewBox="0 0 1200 360" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           preserveAspectRatio="xMidYMax meet">
+
+        <!-- Gespiegeld, zodat de Marathontoren in de open rechterhelft
+             van de header valt en niet achter de tekst verdwijnt -->
+        <g transform="translate(1200,0) scale(-1,1)">
+
+        <!-- Atletiekbaan op de voorgrond -->
+        <g opacity="0.32">
+          <path d="M0 300Q600 282 1200 300"/>
+          <path d="M0 318Q600 296 1200 318"/>
+          <path d="M0 340Q600 312 1200 340"/>
+        </g>
+
+        <!-- Maaiveld -->
+        <path d="M0 286H1200" opacity="0.8"/>
+
+        <!-- Tribunekap over de lange zijde -->
+        <path d="M360 180Q720 112 1080 180"/>
+        <path d="M378 184Q720 126 1062 184" opacity="0.45"/>
+
+        <!-- Gevel van het stadion -->
+        <path d="M360 286V180M1080 286V180"/>
+        <path d="M360 180H1080"/>
+        <path d="M360 216H1080" opacity="0.55"/>
+
+        <!-- Vensterband in het bovenste geveldeel -->
+        <g opacity="0.45">
+          <path d="M400 216V184M440 216V184M480 216V184M520 216V184M560 216V184
+                   M600 216V184M640 216V184M680 216V184M720 216V184M760 216V184
+                   M800 216V184M840 216V184M880 216V184M920 216V184M960 216V184
+                   M1000 216V184M1040 216V184"/>
+        </g>
+
+        <!-- Penanten in het gemetselde onderdeel -->
+        <g opacity="0.28">
+          <path d="M460 286V222M540 286V222M620 286V222M700 286V222
+                   M780 286V222M860 286V222M940 286V222M1020 286V222"/>
+        </g>
+
+        <!-- Poorten op straatniveau -->
+        <g opacity="0.7">
+          <path d="M408 286V266A12 12 0 0 1 432 266V286"/>
+          <path d="M488 286V266A12 12 0 0 1 512 266V286"/>
+          <path d="M568 286V266A12 12 0 0 1 592 266V286"/>
+          <path d="M648 286V266A12 12 0 0 1 672 266V286"/>
+          <path d="M728 286V266A12 12 0 0 1 752 266V286"/>
+          <path d="M808 286V266A12 12 0 0 1 832 266V286"/>
+          <path d="M888 286V266A12 12 0 0 1 912 266V286"/>
+          <path d="M968 286V266A12 12 0 0 1 992 266V286"/>
+          <path d="M1048 286V266A12 12 0 0 1 1072 266V286"/>
+        </g>
+
+        <!-- Middenrisaliet boven de hoofdingang -->
+        <path d="M688 180V152H772V180"/>
+        <path d="M700 152V140H760V152" opacity="0.8"/>
+
+        <!-- Vlaggenmasten op de tribunekap -->
+        <g opacity="0.6">
+          <path d="M440 166V96M560 153V82M880 153V82M1000 166V96"/>
+          <circle cx="440" cy="92" r="3.5"/><circle cx="560" cy="78" r="3.5"/>
+          <circle cx="880" cy="78" r="3.5"/><circle cx="1000" cy="92" r="3.5"/>
+        </g>
+
+        <!-- Marathontoren -->
+        <path d="M212 286V262H288V286"/>
+        <path d="M228 262V62M272 262V62"/>
+        <g opacity="0.4">
+          <path d="M240 254V78M250 254V78M260 254V78"/>
+        </g>
+        <g opacity="0.55">
+          <path d="M228 234H272M228 200H272M228 166H272M228 132H272M228 98H272"/>
+        </g>
+        <path d="M218 62H282"/>
+        <path d="M222 52H278" opacity="0.8"/>
+
+        <!-- Vuurschaal met vlam -->
+        <path d="M230 42H270" opacity="0.85"/>
+        <path d="M234 42L242 60H258L266 42"/>
+        <g opacity="0.75">
+          <path d="M250 36Q243 24 250 12Q257 24 250 36"/>
+          <path d="M241 34Q237 26 241 19" opacity="0.7"/>
+          <path d="M259 34Q263 26 259 19" opacity="0.7"/>
+        </g>
+
+        </g>
+      </svg>
+    </div>
+
     <div class="hero-inner">
       <p class="eyebrow reveal">TCS Amsterdam Marathon &middot; zondag 18 oktober 2026</p>
       <h1 class="reveal reveal-d1">Ik loop 42,195 kilometer.<br><em>Voor mijn nichtje.</em></h1>

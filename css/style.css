@@ -148,6 +148,8 @@ a:hover { color: var(--accent); }
 /* ---------- hero ---------- */
 
 .hero {
+  position: relative;
+  overflow: hidden;
   min-height: 88vh;
   display: flex;
   flex-direction: column;
@@ -159,7 +161,39 @@ a:hover { color: var(--accent); }
   border-bottom: 1px solid var(--line);
 }
 
+/* Lijntekening van de Magere Brug, laag in de hero */
+.hero-achtergrond {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: var(--accent);
+  opacity: 0.11;
+  pointer-events: none;
+  z-index: 0;
+  /* Naar de zijkanten laten uitvloeien zodat de tekening niet hard afkapt */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+}
+
+/* Rechts uitlijnen zodat de Marathontoren in beeld blijft wanneer de
+   tekening op smalle schermen breder is dan het venster */
+.hero-achtergrond {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-achtergrond svg {
+  display: block;
+  width: 100%;
+  /* Niet verder verkleinen dan leesbaar; de linkerkant valt dan buiten beeld */
+  min-width: 860px;
+  height: auto;
+}
+
 .hero-inner {
+  position: relative;
+  z-index: 1;
   max-width: 68rem;
   margin: 0 auto;
   padding: clamp(5rem, 14vh, 9rem) 1.5rem 4rem;
@@ -218,6 +252,8 @@ a:hover { color: var(--accent); }
 }
 
 .hero-strip {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
