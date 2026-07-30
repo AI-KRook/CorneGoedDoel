@@ -52,12 +52,49 @@ De actie is aangemaakt en staat open:
 
 <https://www.doneeractie.nl/ik-loop-42195-kilometer-voor-mijn-nichtje/-121531>
 
-De knop **"Doneer nu via doneeractie.nl"** in de sectie `#doneren` verwijst
-daarnaar. Het streefbedrag (€ 2.000) staat als tekst in `index.html`, gemarkeerd
-met de comment `STREEFBEDRAG`. Wijzigt het doel op doneeractie.nl, pas het daar
-dan ook aan.
+De knop **"Doneer nu"** in de sectie `#doneren` gaat rechtstreeks naar het
+doneerformulier (`/donate`), zodat bezoekers niet eerst langs de actiepagina hoeven.
 
-### Nog te doen: de widget met live donatieteller plaatsen
+### Automatische voortgangsbalk
+
+De site toont het opgehaalde bedrag, het streefbedrag en het percentage in de
+eigen huisstijl. Dat werkt zo:
+
+1. `scripts/haal-stand-op.py` leest de widget van doneeractie.nl uit en schrijft
+   `data/voortgang.json`
+2. `.github/workflows/voortgang.yml` draait dat script elk uur en commit het
+   resultaat als de stand is gewijzigd
+3. `js/main.js` leest de JSON en vult de balk
+
+Handmatig verversen kan met:
+
+```bash
+python scripts/haal-stand-op.py
+```
+
+Het streefbedrag komt uit doneeractie.nl zelf, dus dat hoeft nergens handmatig
+te worden bijgehouden.
+
+**Belangrijk:** de workflow commit naar `main`. Dat lukt alleen als in de
+repository onder *Settings → Actions → General → Workflow permissions* de optie
+**Read and write permissions** aanstaat.
+
+Als het bestand ontbreekt, het laden mislukt of de stand ouder is dan 24 uur,
+blijft de balk verborgen en werkt de doneerknop gewoon. Liever geen bedrag dan
+een verkeerd bedrag op een doneerpagina.
+
+### Alternatief: de officiële widget van doneeractie.nl
+
+Wil je liever de widget van het platform zelf (met eigen vormgeving), plak dan
+dit in `index.html` op de plek van `<div class="widget-placeholder">`:
+
+```html
+<div id="doneeractie_donatiemodule" data-size="2" data-donationactionid="121531"></div>
+<script type="text/javascript" src="https://www.doneeractie.nl/widgets/widget.js?2"></script>
+```
+
+`data-size` kan 1 (350x405, met actiefoto), 2 (350x245) of 3 (210x75, alleen
+een knop) zijn.
 
 1. Ga naar de actiepagina op doneeractie.nl
 2. Klik op **"Website widget"**

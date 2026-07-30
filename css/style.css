@@ -501,6 +501,60 @@ a:hover { color: var(--accent); }
   margin-bottom: 1.75rem;
 }
 
+/* ---------- voortgangsbalk ---------- */
+
+.voortgang {
+  margin: 0 0 1.75rem;
+  text-align: left;
+}
+
+.voortgang-cijfers {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.voortgang-bedrag {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.voortgang-doel {
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+.voortgang-balk {
+  height: 10px;
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.voortgang-vulling {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  border-radius: var(--radius);
+  transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.voortgang-meta {
+  margin-top: 0.6rem;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voortgang-vulling { transition: none; }
+}
+
 .btn-donate {
   display: block;
   width: 100%;

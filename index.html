@@ -247,14 +247,28 @@
               <path d="M24 42C24 42 2 28.5 2 13.5C2 6.5 7.5 2 13.5 2C18 2 22 4.5 24 8C26 4.5 30 2 34.5 2C40.5 2 46 6.5 46 13.5C46 28.5 24 42 24 42Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
             </svg>
             <p class="widget-title">De actie staat open</p>
+
+            <!-- Voortgang. De cijfers komen uit data/voortgang.json, dat elk uur
+                 automatisch wordt bijgewerkt door .github/workflows/voortgang.yml.
+                 Lukt het laden niet, dan blijft dit blok verborgen. -->
+            <div class="voortgang" id="voortgang" hidden>
+              <div class="voortgang-cijfers">
+                <span class="voortgang-bedrag" id="voortgang-bedrag"></span>
+                <span class="voortgang-doel" id="voortgang-doel"></span>
+              </div>
+              <div class="voortgang-balk" role="progressbar" id="voortgang-balk"
+                   aria-valuemin="0" aria-valuemax="100" aria-label="Voortgang van de inzameling">
+                <span class="voortgang-vulling" id="voortgang-vulling"></span>
+              </div>
+              <p class="voortgang-meta" id="voortgang-meta"></p>
+            </div>
+
             <p class="widget-text">
-              Doneren gaat veilig via het Nederlandse platform doneeractie.nl.
-              Je betaalt eenvoudig met iDEAL en je ziet direct hoeveel er al is opgehaald.
-              <!-- STREEFBEDRAG: pas dit aan als het doel op doneeractie.nl wijzigt -->
-              Het doel is <strong>&euro; 2.000</strong> voor het onderzoek.
+              Doneren gaat via het Nederlandse platform doneeractie.nl.
+              De knop brengt je direct naar het doneerformulier.
             </p>
-            <a class="btn btn-primary btn-donate" href="https://www.doneeractie.nl/ik-loop-42195-kilometer-voor-mijn-nichtje/-121531" target="_blank" rel="noopener">
-              Doneer nu via doneeractie.nl
+            <a class="btn btn-primary btn-donate" href="https://www.doneeractie.nl/ik-loop-42195-kilometer-voor-mijn-nichtje/-121531/donate" target="_blank" rel="noopener">
+              Doneer nu
             </a>
             <p class="widget-status">
               Elke donatie telt mee, ook een klein bedrag. Jij kunt deze actie op gang

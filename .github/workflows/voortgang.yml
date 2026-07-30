@@ -1,0 +1,44 @@
+name: Stand van de doneeractie bijwerken
+
+on:
+  schedule:
+    # Elk uur. GitHub voert geplande taken met enige vertraging uit, dat is hier prima.
+    - cron: "17 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/haal-stand-op.py"
+      - ".github/workflows/voortgang.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: voortgang
+  cancel-in-progress: false
+
+jobs:
+  bijwerken:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Stand ophalen bij doneeractie.nl
+        run: python scripts/haal-stand-op.py
+
+      - name: Wijziging vastleggen
+        run: |
+          if git diff --quiet -- data/voortgang.json; then
+            echo "Stand ongewijzigd, niets te committen."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/voortgang.json
+          git commit -m "Stand van de doneeractie bijgewerkt"
+          git push

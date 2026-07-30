@@ -28,6 +28,55 @@
     });
   }
 
+  // Stand van de inzameling tonen.
+  // data/voortgang.json wordt elk uur bijgewerkt door een GitHub Action.
+  // Ontbreekt het bestand of is het verouderd, dan blijft het blok verborgen:
+  // liever geen cijfer dan een verkeerd cijfer op een doneerpagina.
+  var MAX_LEEFTIJD_UREN = 24;
+
+  function toonVoortgang(stand) {
+    var doel = Number(stand.streefbedrag);
+    var opgehaald = Number(stand.opgehaald);
+    if (!isFinite(doel) || doel <= 0 || !isFinite(opgehaald) || opgehaald < 0) return;
+
+    var bijgewerkt = new Date(stand.bijgewerkt);
+    var urenOud = (Date.now() - bijgewerkt.getTime()) / 36e5;
+    if (!isFinite(urenOud) || urenOud > MAX_LEEFTIJD_UREN) return;
+
+    var percentage = Math.round((opgehaald / doel) * 100);
+    var euro = new Intl.NumberFormat('nl-NL', {
+      style: 'currency', currency: 'EUR', maximumFractionDigits: 0
+    });
+
+    document.getElementById('voortgang-bedrag').textContent = euro.format(opgehaald);
+    document.getElementById('voortgang-doel').textContent =
+      'van ' + euro.format(doel) + ' · ' + percentage + '%';
+
+    var balk = document.getElementById('voortgang-balk');
+    balk.setAttribute('aria-valuenow', percentage);
+    balk.setAttribute('aria-valuetext', euro.format(opgehaald) + ' van ' + euro.format(doel));
+
+    var aantal = Number(stand.donaties) || 0;
+    document.getElementById('voortgang-meta').textContent = aantal === 0
+      ? 'Nog geen donaties. Jij kunt de eerste zijn.'
+      : aantal + (aantal === 1 ? ' donatie' : ' donaties') + ' tot nu toe.';
+
+    document.getElementById('voortgang').hidden = false;
+
+    // Balk pas vullen nadat het blok zichtbaar is, zodat de animatie loopt
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        document.getElementById('voortgang-vulling').style.width =
+          Math.min(100, percentage) + '%';
+      });
+    });
+  }
+
+  fetch('data/voortgang.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(toonVoortgang)
+    .catch(function () { /* stil falen: de doneerknop werkt hoe dan ook */ });
+
   // Secties zacht laten verschijnen bij scrollen
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduceMotion && 'IntersectionObserver' in window) {
