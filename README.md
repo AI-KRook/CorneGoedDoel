@@ -64,7 +64,8 @@ eigen huisstijl. Dat werkt zo:
    `data/voortgang.json`
 2. `.github/workflows/voortgang.yml` draait dat script elk uur en commit het
    resultaat als de stand is gewijzigd
-3. `js/main.js` leest de JSON en vult de balk
+3. `js/main.js` leest de JSON en vult twee blokken: de compacte statusbalk in de
+   header en de uitgebreide versie in de doneersectie
 
 Handmatig verversen kan met:
 

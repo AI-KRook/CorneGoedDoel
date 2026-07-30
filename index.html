@@ -27,6 +27,19 @@
         <a class="btn btn-primary" href="#doneren">Doneer voor het onderzoek</a>
         <a class="btn btn-ghost" href="#verhaal">Lees mijn verhaal</a>
       </div>
+
+      <!-- Stand van de actie. Wordt gevuld vanuit data/voortgang.json,
+           net als het blok in de doneersectie. Blijft verborgen zonder data. -->
+      <div class="hero-status" id="hero-status" hidden>
+        <div class="hero-status-balk" role="progressbar" id="hero-status-balk"
+             aria-valuemin="0" aria-valuemax="100" aria-label="Voortgang van de inzameling">
+          <span class="hero-status-vulling" id="hero-status-vulling"></span>
+        </div>
+        <p class="hero-status-tekst">
+          <strong id="hero-status-bedrag"></strong>
+          <span id="hero-status-rest"></span>
+        </p>
+      </div>
     </div>
     <div class="hero-strip" aria-hidden="true">
       <span>42,195 km</span><span class="dot"></span>

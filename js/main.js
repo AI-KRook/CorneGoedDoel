@@ -63,11 +63,22 @@
 
     document.getElementById('voortgang').hidden = false;
 
-    // Balk pas vullen nadat het blok zichtbaar is, zodat de animatie loopt
+    // Zelfde stand kort samengevat in de header
+    document.getElementById('hero-status-bedrag').textContent = euro.format(opgehaald);
+    document.getElementById('hero-status-rest').textContent =
+      'opgehaald van ' + euro.format(doel) + ' · ' + percentage + '%';
+
+    var heroBalk = document.getElementById('hero-status-balk');
+    heroBalk.setAttribute('aria-valuenow', percentage);
+    heroBalk.setAttribute('aria-valuetext', euro.format(opgehaald) + ' van ' + euro.format(doel));
+    document.getElementById('hero-status').hidden = false;
+
+    // Balken pas vullen nadat de blokken zichtbaar zijn, zodat de animatie loopt
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        document.getElementById('voortgang-vulling').style.width =
-          Math.min(100, percentage) + '%';
+        var breedte = Math.min(100, percentage) + '%';
+        document.getElementById('voortgang-vulling').style.width = breedte;
+        document.getElementById('hero-status-vulling').style.width = breedte;
       });
     });
   }

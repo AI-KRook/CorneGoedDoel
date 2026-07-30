@@ -179,6 +179,44 @@ a:hover { color: var(--accent); }
   margin-top: 2.5rem;
 }
 
+.hero-status {
+  margin-top: 2.5rem;
+  max-width: 26rem;
+  animation: reveal 0.9s ease forwards;
+}
+
+.hero-status-balk {
+  height: 6px;
+  background: rgba(20, 51, 47, 0.1);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.hero-status-vulling {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  border-radius: var(--radius);
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-status-tekst {
+  margin-top: 0.7rem;
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+.hero-status-tekst strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-status { animation: none; }
+  .hero-status-vulling { transition: none; }
+}
+
 .hero-strip {
   display: flex;
   align-items: center;
