@@ -16,6 +16,10 @@
   --card: #ffffff;
   --radius: 2px;
   --shadow: 0 18px 40px -22px rgba(16, 49, 46, 0.35);
+  /* Leesbare regellengte, ongeveer 75 tekens. Het kader is breder; alleen
+     doorlopende tekst wordt hierop afgetopt. Deze maat geldt voor het
+     tekstelement zelf, dus zonder de padding van de container. */
+  --maat-tekst: 42rem;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -86,9 +90,31 @@ a:hover { color: var(--accent); }
   padding: 0 2rem;
 }
 
-/* Tekstsecties blijven smal: bij meer dan ongeveer 75 tekens per regel
-   loopt de leesbaarheid terug, hoe breed het scherm ook is. */
-.container.narrow { max-width: 46rem; }
+/* Elke sectie gebruikt hetzelfde kader, zodat de linkermarge over de hele
+   pagina gelijk blijft. Alleen doorlopende tekst wordt afgetopt op een
+   leesbare regellengte; contentblokken mogen het volle kader benutten. */
+.container.narrow { max-width: 76rem; }
+
+.container.narrow > p,
+.container.narrow > h2,
+.container.narrow > h3,
+.container.narrow > ol,
+.container.narrow > .proof,
+.container.narrow > .symptoms {
+  max-width: var(--maat-tekst);
+}
+
+/* Het drieluik met kaarten is een zelfstandig blok en mag het volle kader
+   gebruiken; de opsomming hoort bij de lopende tekst en blijft smal. */
+.container.narrow > .facts {
+  max-width: none;
+}
+
+/* In gecentreerde secties blijft de afgetopte tekst gecentreerd staan */
+.container.center > p {
+  margin-left: auto;
+  margin-right: auto;
+}
 .container.center { text-align: center; }
 .container.center h2 { margin-left: auto; margin-right: auto; }
 
@@ -343,7 +369,7 @@ a:hover { color: var(--accent); }
 }
 
 .tribute-inner {
-  max-width: 42rem;
+  max-width: 48rem;
   text-align: center;
 }
 
@@ -748,7 +774,7 @@ a:hover { color: var(--accent); }
 @media (min-width: 1500px) {
   body { font-size: 1.125rem; }
 
-  .container.narrow { max-width: 48rem; }
+  :root { --maat-tekst: 44rem; }
 
   .section { padding: 7rem 0; }
 }
