@@ -21,12 +21,8 @@ De site is volledig statisch en werkt zonder build-step. Openen kan door
 
 Zoek in `index.html` op de volgende blokken:
 
-1. **Naam van het nichtje**: zoek op `[Naam]` in de sectie `#eerbetoon` en vervang
-   door de echte naam. Zie ook de HTML-comment `NAAM NICHTJE`.
-2. **Eerbetoon**: onder de comment `EERBETOON INVULLEN` staat een placeholder voor
-   een persoonlijke tekst en foto van het nichtje.
-3. **Contactadres**: onderin de footer, zoek op `[e-mailadres]`.
-4. **Rekeningnummer**: in de doneersectie staat een placeholder
+1. **Contactadres**: onderin de footer, zoek op `[e-mailadres]`.
+2. **Rekeningnummer**: in de doneersectie staat een placeholder
    `NL00 XXXX 0000 0000 00`. Zoek op de comment `IBAN`, vul het echte
    nummer en de tenaamstelling in en verwijder de regel
    "Het rekeningnummer volgt binnenkort".
@@ -35,13 +31,14 @@ Zoek in `index.html` op de volgende blokken:
    voorbeeld-IBAN neer die er echt uitziet: dit is een openbare
    doneerpagina en bezoekers maken daadwerkelijk geld over.
 
-De foto van Corné staat al op de site (`images/corne.jpg`).
+De foto's van Corné (`images/corne.jpg`) en Maud (`images/maud.jpg`) staan er al op.
 
 ## Foto's toevoegen of vervangen
 
 De pagina laadt `images/corne.jpg` automatisch. Ontbreekt het bestand, dan
 verschijnt in plaats daarvan de placeholder, zodat de site nooit een kapotte
-afbeelding toont.
+afbeelding toont. De foto van Maud in `#eerbetoon` heeft die terugval niet en
+moet dus aanwezig zijn.
 
 Zet foto's altijd verkleind in de repo, niet op volle resolutie. Een origineel
 uit de camera is al gauw 10 MB en maakt de site traag. Verkleinen naar een

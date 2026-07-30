@@ -100,7 +100,8 @@ a:hover { color: var(--accent); }
 .container.narrow > h3,
 .container.narrow > ol,
 .container.narrow > .proof,
-.container.narrow > .symptoms {
+.container.narrow > .symptoms,
+.container.narrow > .eigen-woorden {
   max-width: var(--maat-tekst);
 }
 
@@ -374,10 +375,18 @@ a:hover { color: var(--accent); }
   text-align: center;
 }
 
-.tribute-heart {
-  width: 44px;
-  color: var(--accent);
-  margin-bottom: 2rem;
+.tribute-foto {
+  margin: 0 auto 2rem;
+  width: 240px;
+  max-width: 60%;
+}
+
+.tribute-foto img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: 0 22px 50px -26px rgba(0, 0, 0, 0.7);
 }
 
 .section-tribute .eyebrow { color: #6ec2b1; }
@@ -396,13 +405,58 @@ a:hover { color: var(--accent); }
   margin: 0 auto;
 }
 
-.tribute-placeholder {
-  margin-top: 2.5rem;
-  padding: 2rem;
-  border: 1.5px dashed rgba(226, 239, 235, 0.3);
-  border-radius: var(--radius);
-  color: #94aea8;
-  font-size: 0.9375rem;
+.tribute-quote {
+  margin: 2.5rem auto 0;
+  max-width: 32rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(226, 239, 235, 0.22);
+}
+
+.tribute-quote p {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  font-weight: 300;
+  line-height: 1.45;
+  color: #fff;
+}
+
+.tribute-quote p::before { content: "\201C"; }
+.tribute-quote p::after { content: "\201D"; }
+
+.tribute-quote cite {
+  display: block;
+  margin-top: 1rem;
+  font-style: normal;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #6ec2b1;
+}
+
+/* ---------- verhaal in eigen woorden ---------- */
+
+.eigen-woorden {
+  margin-top: 2rem;
+  padding-left: 1.75rem;
+  border-left: 3px solid var(--accent);
+}
+
+.eigen-woorden p {
+  color: var(--ink-soft);
+}
+
+.eigen-woorden p + p {
+  margin-top: 1.15rem;
+}
+
+.eigen-woorden-bron {
+  margin-top: 1.25rem;
+  padding-left: calc(1.75rem + 3px);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
 }
 
 /* ---------- symptomen ---------- */

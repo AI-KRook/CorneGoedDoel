@@ -5,3 +5,6 @@ desktop.ini
 # Originele foto's op volle resolutie horen niet in de repo.
 # De voor het web geoptimaliseerde versies staan in images/.
 Profielfoto*.jpg
+
+# Bronbestanden met persoonlijke verhalen horen niet in de repo.
+*.docx
