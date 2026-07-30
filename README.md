@@ -46,22 +46,18 @@ python -c "from PIL import Image; im=Image.open('origineel.jpg'); W,H=im.size; w
 Originele bestanden met de naam `Profielfoto*.jpg` worden via `.gitignore`
 buiten de repo gehouden.
 
-## Doneeractie.nl koppelen
+## Doneeractie.nl
 
-In de sectie `#doneren` staat nu een werkende knop **"Doneer nu via doneeractie.nl"**.
-Die verwijst voorlopig naar de homepage van doneeractie.nl. Zodra de actie is
-aangemaakt (het rekeningnummer volgt nog) zijn er twee stappen:
+De actie is aangemaakt en staat open:
 
-### 1. De knop naar de juiste actiepagina laten wijzen
+<https://www.doneeractie.nl/ik-loop-42195-kilometer-voor-mijn-nichtje/-121531>
 
-Zoek in `index.html` op de comment `ACTIE-URL` en vervang
-`https://www.doneeractie.nl/` door de directe URL van de actiepagina,
-bijvoorbeeld `https://www.doneeractie.nl/naam-van-de-actie/-12345`.
+De knop **"Doneer nu via doneeractie.nl"** in de sectie `#doneren` verwijst
+daarnaar. Het streefbedrag (€ 2.000) staat als tekst in `index.html`, gemarkeerd
+met de comment `STREEFBEDRAG`. Wijzigt het doel op doneeractie.nl, pas het daar
+dan ook aan.
 
-Verwijder daarna de alinea met de klasse `widget-status` ("De actiepagina wordt
-op dit moment opgezet").
-
-### 2. De officiële widget met donatieteller plaatsen
+### Nog te doen: de widget met live donatieteller plaatsen
 
 1. Ga naar de actiepagina op doneeractie.nl
 2. Klik op **"Website widget"**
