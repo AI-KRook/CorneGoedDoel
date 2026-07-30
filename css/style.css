@@ -104,10 +104,11 @@ a:hover { color: var(--accent); }
   max-width: var(--maat-tekst);
 }
 
-/* Het drieluik met kaarten is een zelfstandig blok en mag het volle kader
-   gebruiken; de opsomming hoort bij de lopende tekst en blijft smal. */
+/* Het drieluik met kaarten mag breder dan de leesmaat, maar niet het volle
+   kader: anders wordt de sprong ten opzichte van de tekst zo groot dat de
+   lege ruimte rechts als een fout leest in plaats van als een keuze. */
 .container.narrow > .facts {
-  max-width: none;
+  max-width: 62rem;
 }
 
 /* In gecentreerde secties blijft de afgetopte tekst gecentreerd staan */
