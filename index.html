@@ -61,12 +61,16 @@
           </p>
         </div>
         <figure class="photo-frame">
-          <!-- FOTO CORNÉ: vervang dit blok door <img src="images/corne.jpg" alt="Corné tijdens een training"> -->
+          <!-- FOTO CORNÉ: zet het bestand neer als images/corne.jpg en de foto verschijnt
+               automatisch. Ontbreekt het bestand, dan blijft de placeholder hieronder staan. -->
+          <img src="images/corne.jpg" alt="Portretfoto van Corné" class="photo-real"
+               onload="this.closest('.photo-frame').classList.add('has-photo')"
+               onerror="this.remove()">
           <div class="photo-placeholder">
             <span class="photo-placeholder-label">Foto van Corné</span>
             <span class="photo-placeholder-hint">komt hier</span>
           </div>
-          <figcaption>Onderweg naar 18 oktober, kilometer voor kilometer.</figcaption>
+          <figcaption>Corné. Op 18 oktober aan de start in Amsterdam.</figcaption>
         </figure>
       </div>
     </section>
@@ -160,8 +164,42 @@
       </div>
     </section>
 
+    <!-- ===================== BEHANDELING ===================== -->
+    <section class="section section-alt" id="behandeling">
+      <div class="container narrow">
+        <p class="eyebrow">Behandeling</p>
+        <h2>Wat er nu wel en niet kan</h2>
+        <p>
+          Er is nog geen medicijn dat DVN geneest. Wordt er een onderliggende oorzaak gevonden,
+          dan begint de behandeling daar. Lukt dat niet, dan blijft er pijnmedicatie over die
+          vaak gedeeltelijk verlicht, en pijnrevalidatie om te voorkomen dat de pijn het hele
+          dagelijks leven gaat bepalen.
+        </p>
+
+        <div class="proof">
+          <p class="proof-label">Onderzoek werkt, dat is al bewezen</p>
+          <p class="proof-text">
+            De onderzoekers in Maastricht toonden aan dat het middel lacosamide de pijn vermindert
+            bij patiënten met een specifieke erfelijke vorm van DVN. Bij
+            <strong>58%</strong> van hen nam de pijn af, tegenover
+            <strong>22%</strong> bij een placebo.
+          </p>
+          <p class="proof-source">
+            Gepubliceerd in <a href="https://academic.oup.com/brain/article/142/2/263/5289372" target="_blank" rel="noopener">Brain, 2019</a>.
+            Voor alle andere vormen van DVN bestaat zoiets nog niet.
+          </p>
+        </div>
+
+        <p>
+          De levensverwachting bij DVN is normaal en de spierkracht blijft goed. Maar de pijn en
+          de vermoeidheid bepalen wel wat er op een dag mogelijk is. Over het beloop bij kinderen
+          is nog opvallend weinig bekend. Precies daar kan onderzoek het verschil maken.
+        </p>
+      </div>
+    </section>
+
     <!-- ===================== BESTEDING ===================== -->
-    <section class="section section-alt" id="besteding">
+    <section class="section" id="besteding">
       <div class="container narrow">
         <p class="eyebrow">Waar je donatie heengaat</p>
         <h2>Rechtstreeks naar het onderzoek in Maastricht</h2>

@@ -243,10 +243,15 @@ a:hover { color: var(--accent); }
 
 .photo-frame img {
   width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   display: block;
 }
+
+/* Zodra images/corne.jpg bestaat, verdwijnt de placeholder automatisch */
+.photo-frame.has-photo .photo-placeholder { display: none; }
 
 .photo-frame figcaption {
   margin-top: 0.75rem;
@@ -347,6 +352,42 @@ a:hover { color: var(--accent); }
   width: 7px;
   height: 1.5px;
   background: var(--accent);
+}
+
+/* ---------- uitgelicht onderzoeksresultaat ---------- */
+
+.proof {
+  margin: 2.25rem 0;
+  padding: 1.75rem 2rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+}
+
+.proof-label {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.proof-text {
+  font-size: 1rem;
+  color: var(--ink-soft);
+}
+
+.proof-text strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.proof-source {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
 }
 
 /* ---------- bronvermelding ---------- */
@@ -597,6 +638,8 @@ a:hover { color: var(--accent); }
   }
 
   .widget-card { padding: 2.25rem 1.5rem; }
+
+  .proof { padding: 1.5rem 1.25rem; }
 
   .share-actions .btn { width: 100%; }
 }

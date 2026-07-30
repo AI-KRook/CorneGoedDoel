@@ -25,9 +25,26 @@ Zoek in `index.html` op de volgende blokken:
    door de echte naam. Zie ook de HTML-comment `NAAM NICHTJE`.
 2. **Eerbetoon**: onder de comment `EERBETOON INVULLEN` staat een placeholder voor
    een persoonlijke tekst en foto van het nichtje.
-3. **Foto van Corné**: onder de comment `FOTO CORNÉ` in de sectie `#verhaal`.
-   Zet de foto in een map `images/` en vervang de placeholder door een `<img>`.
-4. **Contactadres**: onderin de footer, zoek op `[e-mailadres]`.
+3. **Contactadres**: onderin de footer, zoek op `[e-mailadres]`.
+
+De foto van Corné staat al op de site (`images/corne.jpg`).
+
+## Foto's toevoegen of vervangen
+
+De pagina laadt `images/corne.jpg` automatisch. Ontbreekt het bestand, dan
+verschijnt in plaats daarvan de placeholder, zodat de site nooit een kapotte
+afbeelding toont.
+
+Zet foto's altijd verkleind in de repo, niet op volle resolutie. Een origineel
+uit de camera is al gauw 10 MB en maakt de site traag. Verkleinen naar een
+staande uitsnede van 1000 bij 1250 pixels kan met:
+
+```bash
+python -c "from PIL import Image; im=Image.open('origineel.jpg'); W,H=im.size; w=int(H*4/5); l=max(0,min(W-w,int(W*0.47)-w//2)); im.crop((l,0,l+w,H)).resize((1000,1250), Image.LANCZOS).save('images/corne.jpg','JPEG',quality=82,optimize=True,progressive=True)"
+```
+
+Originele bestanden met de naam `Profielfoto*.jpg` worden via `.gitignore`
+buiten de repo gehouden.
 
 ## Doneeractie.nl koppelen
 
