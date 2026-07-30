@@ -1,20 +1,21 @@
 /* ============================================================
    Corné loopt voor onderzoek naar dunnevezelneuropathie
-   Warm, persoonlijk, ingetogen. Helvetica, rechte hoeken.
+   Rustig blauwgroen, persoonlijk, ingetogen.
+   Rubik, rechte hoeken.
    ============================================================ */
 
 :root {
-  --bg: #fbf7f0;
-  --bg-alt: #f3ebdd;
-  --bg-deep: #2f241a;
-  --ink: #33261b;
-  --ink-soft: #6f5c4a;
-  --accent: #b4542c;
-  --accent-dark: #93401f;
-  --line: #e4d8c6;
-  --card: #fffdf9;
+  --bg: #f4f8f6;
+  --bg-alt: #e6efeb;
+  --bg-deep: #10312e;
+  --ink: #14332f;
+  --ink-soft: #4d6b66;
+  --accent: #17786b;
+  --accent-dark: #0f5c52;
+  --line: #d5e3dd;
+  --card: #ffffff;
   --radius: 2px;
-  --shadow: 0 18px 40px -22px rgba(51, 38, 27, 0.35);
+  --shadow: 0 18px 40px -22px rgba(16, 49, 46, 0.35);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,7 +25,7 @@ html {
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Rubik", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: var(--bg);
   color: var(--ink);
   line-height: 1.7;
@@ -152,8 +153,8 @@ a:hover { color: var(--accent); }
   flex-direction: column;
   justify-content: space-between;
   background:
-    radial-gradient(ellipse 90% 60% at 15% 0%, rgba(180, 84, 44, 0.10), transparent 60%),
-    radial-gradient(ellipse 70% 50% at 95% 90%, rgba(180, 84, 44, 0.07), transparent 55%),
+    radial-gradient(ellipse 90% 60% at 15% 0%, rgba(23, 120, 107, 0.13), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 95% 90%, rgba(23, 120, 107, 0.09), transparent 55%),
     var(--bg);
   border-bottom: 1px solid var(--line);
 }
@@ -257,7 +258,7 @@ a:hover { color: var(--accent); }
 
 .section-tribute {
   background: var(--bg-deep);
-  color: #f4ead9;
+  color: #e2efeb;
 }
 
 .tribute-inner {
@@ -271,7 +272,7 @@ a:hover { color: var(--accent); }
   margin-bottom: 2rem;
 }
 
-.section-tribute .eyebrow { color: #d99a72; }
+.section-tribute .eyebrow { color: #6ec2b1; }
 
 .tribute-name {
   color: #fff;
@@ -281,7 +282,7 @@ a:hover { color: var(--accent); }
 }
 
 .tribute-text {
-  color: #d9c9b4;
+  color: #b8cfc9;
   font-size: 1.125rem;
   max-width: 34rem;
   margin: 0 auto;
@@ -290,10 +291,71 @@ a:hover { color: var(--accent); }
 .tribute-placeholder {
   margin-top: 2.5rem;
   padding: 2rem;
-  border: 1.5px dashed rgba(244, 234, 217, 0.3);
+  border: 1.5px dashed rgba(226, 239, 235, 0.3);
   border-radius: var(--radius);
-  color: #b3a08a;
+  color: #94aea8;
   font-size: 0.9375rem;
+}
+
+/* ---------- symptomen ---------- */
+
+.subhead {
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.symptoms {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.symptom-label {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.symptom-group ul {
+  list-style: none;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.symptom-group li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+.symptom-group li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 7px;
+  height: 1.5px;
+  background: var(--accent);
+}
+
+/* ---------- bronvermelding ---------- */
+
+.sources {
+  margin-top: 2rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
 }
 
 /* ---------- feiten ---------- */
@@ -357,7 +419,7 @@ a:hover { color: var(--accent); }
 
 .section-donate {
   background:
-    radial-gradient(ellipse 80% 70% at 50% 100%, rgba(180, 84, 44, 0.09), transparent 60%),
+    radial-gradient(ellipse 80% 70% at 50% 100%, rgba(23, 120, 107, 0.11), transparent 60%),
     var(--bg);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -398,6 +460,37 @@ a:hover { color: var(--accent); }
   margin-bottom: 1.75rem;
 }
 
+.btn-donate {
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1.15rem 1.5rem;
+}
+
+.widget-status {
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+.widget-platform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.widget-lock {
+  width: 15px;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
 .donate-note {
   margin-top: 2rem;
   font-size: 0.9375rem;
@@ -421,7 +514,7 @@ a:hover { color: var(--accent); }
 
 .footer {
   background: var(--bg-deep);
-  color: #b3a08a;
+  color: #94aea8;
   padding: 4rem 0;
   font-size: 0.9375rem;
 }
@@ -429,12 +522,12 @@ a:hover { color: var(--accent); }
 .footer-inner { max-width: 46rem; }
 
 .footer-title {
-  color: #f4ead9;
+  color: #e2efeb;
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
-.footer a { color: #d99a72; }
+.footer a { color: #6ec2b1; }
 .footer a:hover { color: #fff; }
 
 .footer-contact { margin-top: 1.5rem; }
@@ -489,6 +582,11 @@ a:hover { color: var(--accent); }
   .photo-frame { position: static; }
 
   .facts { grid-template-columns: 1fr; }
+
+  .symptoms {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 
   .hero { min-height: 0; }
 
