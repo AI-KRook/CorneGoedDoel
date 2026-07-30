@@ -1,7 +1,7 @@
 # Corné loopt voor onderzoek naar dunnevezelneuropathie
 
 Persoonlijke doneerwebsite voor de deelname van Corné aan de TCS Amsterdam Marathon
-(zondag 18 oktober 2026). De opbrengst gaat als geoormerkte gift via het
+(zondag 18 oktober 2026). De opbrengst gaat via het
 Universiteitsfonds Limburg naar het onderzoek naar dunnevezelneuropathie (DVN)
 van Maastricht UMC+.
 
