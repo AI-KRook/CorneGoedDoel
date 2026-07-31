@@ -119,3 +119,17 @@ jobs:
                    _site '$MAP';
           "
           echo "Klaar. De site staat op TransIP in $MAP."
+
+      - name: Controleren of de site online staat
+        env:
+          DOMEIN: ${{ vars.TRANSIP_DOMEIN || 'cornelooptvoordvnonderzoek.nl' }}
+        run: |
+          code=$(curl -s -o /tmp/pagina.html -w '%{http_code}' -L --max-time 20 "https://$DOMEIN" || echo "000")
+          echo "HTTP $code van https://$DOMEIN"
+          if grep -qi 'dunnevezelneuropathie' /tmp/pagina.html 2>/dev/null; then
+            echo "De site is online en toont de juiste inhoud."
+          elif grep -qi 'reserved domain' /tmp/pagina.html 2>/dev/null; then
+            echo "::warning::De bestanden zijn geupload, maar het domein toont nog de parkeerpagina van TransIP. Koppel het hostingpakket aan het domein in het controlepaneel."
+          else
+            echo "::warning::De upload is gelukt, maar op $DOMEIN staat nog niet de verwachte inhoud. Controleer of de DocumentRoot klopt."
+          fi
