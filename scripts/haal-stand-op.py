@@ -72,9 +72,10 @@ def main() -> int:
         json.dumps(stand, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
 
+    aantal = stand["donaties"]
     print(
         f"€ {stand['opgehaald']:.2f} van € {stand['streefbedrag']:.2f} "
-        f"({stand['percentage']}%), {stand['donaties']} donaties"
+        f"({stand['percentage']}%), {aantal} {'donatie' if aantal == 1 else 'donaties'}"
     )
     return 0
 

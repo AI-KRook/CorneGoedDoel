@@ -43,13 +43,18 @@
     if (!isFinite(urenOud) || urenOud > MAX_LEEFTIJD_UREN) return;
 
     var percentage = Math.round((opgehaald / doel) * 100);
+    // Een klein bedrag rondt af naar 0%, wat leest alsof er niets binnen is.
+    var percentageTekst = (percentage === 0 && opgehaald > 0) ? 'minder dan 1%' : percentage + '%';
+    // Idem voor de balk: geef een zichtbaar streepje zodra er iets staat.
+    var balkBreedte = (opgehaald > 0 ? Math.max(1, Math.min(100, percentage)) : 0) + '%';
+
     var euro = new Intl.NumberFormat('nl-NL', {
       style: 'currency', currency: 'EUR', maximumFractionDigits: 0
     });
 
     document.getElementById('voortgang-bedrag').textContent = euro.format(opgehaald);
     document.getElementById('voortgang-doel').textContent =
-      'van ' + euro.format(doel) + ' · ' + percentage + '%';
+      'van ' + euro.format(doel) + ' · ' + percentageTekst;
 
     var balk = document.getElementById('voortgang-balk');
     balk.setAttribute('aria-valuenow', percentage);
@@ -65,7 +70,7 @@
     // Zelfde stand kort samengevat in de header
     document.getElementById('hero-status-bedrag').textContent = euro.format(opgehaald);
     document.getElementById('hero-status-rest').textContent =
-      'opgehaald van ' + euro.format(doel) + ' · ' + percentage + '%';
+      'opgehaald van ' + euro.format(doel) + ' · ' + percentageTekst;
 
     var heroBalk = document.getElementById('hero-status-balk');
     heroBalk.setAttribute('aria-valuenow', percentage);
@@ -75,9 +80,8 @@
     // Balken pas vullen nadat de blokken zichtbaar zijn, zodat de animatie loopt
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        var breedte = Math.min(100, percentage) + '%';
-        document.getElementById('voortgang-vulling').style.width = breedte;
-        document.getElementById('hero-status-vulling').style.width = breedte;
+        document.getElementById('voortgang-vulling').style.width = balkBreedte;
+        document.getElementById('hero-status-vulling').style.width = balkBreedte;
       });
     });
   }
