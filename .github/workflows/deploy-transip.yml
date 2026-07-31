@@ -86,27 +86,37 @@ jobs:
           chmod 600 ~/.ssh/known_hosts
           echo "Server bereikbaar, sleutel opgeslagen."
 
-      - name: Verbinding testen en doelmap tonen
+      - name: Verbinding testen en doelmap controleren
         env:
           HOST: ${{ secrets.TRANSIP_FTP_HOST }}
           GEBRUIKER: ${{ secrets.TRANSIP_FTP_USER }}
           SSHPASS: ${{ secrets.TRANSIP_FTP_PASSWORD }}
+          MAP: ${{ vars.TRANSIP_DOCUMENTROOT || 'www' }}
         run: |
           # sshpass -e leest het wachtwoord uit $SSHPASS, zodat het nergens in
           # een commandoregel of lftp-instelling terechtkomt die in het log komt.
-          lftp -c "
+          uitvoer=$(lftp -c "
             set sftp:connect-program 'sshpass -e ssh -a -x';
             set net:max-retries 1;
             set net:timeout 20;
             open sftp://$GEBRUIKER@$HOST;
-            echo '--- huidige map ---';
+            echo '--- thuismap ---';
             pwd;
             echo '--- inhoud ---';
             ls;
-          " || {
-            echo "::error::Inloggen mislukt. Controleer gebruikersnaam en wachtwoord uit Webhosting > je domein > Website > SFTP/SSH."
+            echo '--- doelmap $MAP ---';
+            ls '$MAP';
+          " 2>&1) || {
+            echo "$uitvoer"
+            echo "::error::Inloggen mislukt. Stel het wachtwoord opnieuw in via Webhosting > je domein > Website > SFTP/SSH en zet exact datzelfde wachtwoord in het secret TRANSIP_FTP_PASSWORD."
             exit 1
           }
+          echo "$uitvoer"
+          if echo "$uitvoer" | grep -qi "no such file\|not found"; then
+            echo "::error::De doelmap '$MAP' bestaat niet. Pas de variabele TRANSIP_DOCUMENTROOT aan naar de juiste map."
+            exit 1
+          fi
+          echo "Verbinding en doelmap in orde."
 
       - name: Uploaden via SFTP
         env:
