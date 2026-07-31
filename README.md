@@ -17,21 +17,21 @@ CSS-variabelen bovenin `css/style.css` en kan daar in één blok worden aangepas
 De site is volledig statisch en werkt zonder build-step. Openen kan door
 `index.html` in een browser te openen.
 
-## Nog in te vullen (placeholders)
+## Gegevens op de site
 
-Zoek in `index.html` op de volgende blokken:
+Alle placeholders zijn ingevuld. De site bevat nu:
 
-1. **Contactadres**: onderin de footer, zoek op `[e-mailadres]`.
-2. **Rekeningnummer**: in de doneersectie staat een placeholder
-   `NL00 XXXX 0000 0000 00`. Zoek op de comment `IBAN`, vul het echte
-   nummer en de tenaamstelling in en verwijder de regel
-   "Het rekeningnummer volgt binnenkort".
+- **Rekeningnummer** `NL79 SNSB 8848 2067 19` (SNS Bank), in de doneersectie
+- **Contactadres** `cvangils45@gmail.com`, onderin de footer
+- **Foto's** van Corné (`images/corne.jpg`) en Maud (`images/maud.jpg`)
 
-   De placeholder is met opzet onmiskenbaar nep. Zet er nooit een
-   voorbeeld-IBAN neer die er echt uitziet: dit is een openbare
-   doneerpagina en bezoekers maken daadwerkelijk geld over.
+Wijzigt het rekeningnummer, controleer een nieuw nummer dan altijd eerst op de
+IBAN-checksum voordat je het publiceert. Een fout nummer op een openbare
+doneerpagina betekent dat geld bij de verkeerde terechtkomt:
 
-De foto's van Corné (`images/corne.jpg`) en Maud (`images/maud.jpg`) staan er al op.
+```bash
+python -c "s='NL79SNSB8848206719'; print('geldig' if len(s)==18 and int(''.join(str(int(c,36)) for c in s[4:]+s[:4]))%97==1 else 'ONGELDIG')"
+```
 
 ## Foto's toevoegen of vervangen
 
