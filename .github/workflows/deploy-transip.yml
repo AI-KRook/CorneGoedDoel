@@ -68,6 +68,12 @@ jobs:
             echo "::error::TRANSIP_FTP_HOST bevat een protocol, poort of pad. Vul alleen de hostnaam in, bijvoorbeeld iets.ssh.transip.me"
             exit 1
           fi
+          # SSH loopt bij TransIP via een aparte toegangsserver, niet via het
+          # website-adres. Je eigen domeinnaam invullen is de meest gemaakte fout.
+          if ! printf '%s' "$HOST" | grep -qE '\.ssh\.transip\.(me|nl|eu)$'; then
+            echo "::error::TRANSIP_FTP_HOST lijkt geen TransIP SSH-host. Verwacht wordt iets als xxxx.ssh.transip.me, te vinden onder Webhosting > je domein > Website > SFTP/SSH bij het veld Host. Je eigen domeinnaam werkt hier niet: die verwijst naar de webserver, niet naar de SSH-toegang."
+            exit 1
+          fi
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
           if ! ssh-keyscan -T 15 -p 22 "$HOST" >> ~/.ssh/known_hosts 2>/dev/null; then
             echo "::error::Kan geen SSH-verbinding openen met de opgegeven host. Controleer TRANSIP_FTP_HOST."
