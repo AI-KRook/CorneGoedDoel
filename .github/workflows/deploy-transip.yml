@@ -1,10 +1,14 @@
 name: Website publiceren naar TransIP
 
-# Draait bij elke wijziging in de site, en daarnaast elk uur.
-# Dat uurlijkse ritme is nodig omdat de commits van de voortgang-workflow
-# met de standaard GITHUB_TOKEN worden gedaan, en zulke commits starten
-# bewust geen andere workflows. Zonder dit schema zou de teller op TransIP
-# blijven hangen op de stand van de laatste handmatige wijziging.
+# TransIP webhosting werkt met SFTP op poort 22, niet met FTPS.
+# De inloggegevens staan in het controlepaneel onder
+# Webhosting > je domein > Website > SFTP/SSH.
+#
+# Draait bij elke wijziging in de site, en daarnaast elk uur. Dat uurlijkse
+# ritme is nodig omdat de commits van de voortgang-workflow met de standaard
+# GITHUB_TOKEN worden gedaan, en zulke commits starten bewust geen andere
+# workflows. Zonder dit schema zou de teller op TransIP blijven hangen op de
+# stand van de laatste handmatige wijziging.
 on:
   push:
     branches: [main]
@@ -37,27 +41,58 @@ jobs:
           echo "Te publiceren bestanden:"
           find _site -type f | sort
 
-      - name: lftp installeren
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
-
-      - name: Uploaden via FTPS
+      - name: Benodigde gegevens controleren
         env:
           HOST: ${{ secrets.TRANSIP_FTP_HOST }}
           USER: ${{ secrets.TRANSIP_FTP_USER }}
           PASS: ${{ secrets.TRANSIP_FTP_PASSWORD }}
-          MAP: ${{ vars.TRANSIP_DOCUMENTROOT || '/www' }}
         run: |
-          if [ -z "$HOST" ] || [ -z "$USER" ] || [ -z "$PASS" ]; then
-            echo "::error::Secrets TRANSIP_FTP_HOST, TRANSIP_FTP_USER of TRANSIP_FTP_PASSWORD ontbreken."
+          ontbreekt=""
+          [ -z "$HOST" ] && ontbreekt="$ontbreekt TRANSIP_FTP_HOST"
+          [ -z "$USER" ] && ontbreekt="$ontbreekt TRANSIP_FTP_USER"
+          [ -z "$PASS" ] && ontbreekt="$ontbreekt TRANSIP_FTP_PASSWORD"
+          if [ -n "$ontbreekt" ]; then
+            echo "::error::Deze secrets ontbreken:$ontbreekt"
             exit 1
           fi
+          echo "Alle drie de secrets zijn gevuld."
+
+      - name: lftp en sshpass installeren
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp sshpass
+
+      - name: Verbinding testen en doelmap tonen
+        env:
+          HOST: ${{ secrets.TRANSIP_FTP_HOST }}
+          USER: ${{ secrets.TRANSIP_FTP_USER }}
+          SSHPASS: ${{ secrets.TRANSIP_FTP_PASSWORD }}
+        run: |
+          # sshpass -e leest het wachtwoord uit $SSHPASS, zodat het nergens
+          # in een commandoregel of lftp-instelling terechtkomt.
           lftp -c "
-            set ftp:ssl-force true;
-            set ftp:ssl-protect-data true;
-            set ssl:verify-certificate true;
-            open -u '$USER','$PASS' '$HOST';
-            mirror --reverse --verbose --parallel=4 \
+            set sftp:connect-program 'sshpass -e ssh -a -x -o StrictHostKeyChecking=accept-new';
+            set net:max-retries 2;
+            set net:timeout 20;
+            open -u '$USER', sftp://$HOST;
+            echo 'Verbonden. Huidige map:';
+            pwd;
+            echo 'Inhoud:';
+            ls;
+          "
+
+      - name: Uploaden via SFTP
+        env:
+          HOST: ${{ secrets.TRANSIP_FTP_HOST }}
+          USER: ${{ secrets.TRANSIP_FTP_USER }}
+          SSHPASS: ${{ secrets.TRANSIP_FTP_PASSWORD }}
+          MAP: ${{ vars.TRANSIP_DOCUMENTROOT || '/www' }}
+        run: |
+          lftp -c "
+            set sftp:connect-program 'sshpass -e ssh -a -x -o StrictHostKeyChecking=accept-new';
+            set net:max-retries 2;
+            set net:timeout 20;
+            open -u '$USER', sftp://$HOST;
+            mirror --reverse --verbose --parallel=2 \
                    --exclude-glob .git* \
                    _site '$MAP';
           "
-          echo "Klaar. De site staat op TransIP."
+          echo "Klaar. De site staat op TransIP in $MAP."

@@ -122,7 +122,7 @@ op elke webserver zonder aanpassingen. Er is geen PHP, database of build-step no
 | Instelling | Waarde |
 |---|---|
 | DocumentRoot | `/www` (de standaard) |
-| Protocol | SFTP of FTPS, geen onversleutelde FTP |
+| Protocol | SFTP op poort 22 (TransIP ondersteunt geen FTPS) |
 | SSL | Let's Encrypt aanzetten bij *Domeinen & SSL* |
 | PHP | niet nodig |
 | Database | niet nodig |
@@ -138,12 +138,15 @@ belangrijker dan het lijkt: de voortgangsbalk wordt elk uur bijgewerkt door een
 andere workflow, en zonder automatische publicatie zou de teller op TransIP
 blijven staan op de stand van je laatste handmatige upload.
 
-Voeg in GitHub onder *Settings → Secrets and variables → Actions* deze drie
-secrets toe. Vul ze zelf in; ze zijn daarna niet meer leesbaar.
+De gegevens vind je in het TransIP-controlepaneel onder
+*Webhosting → je domein → Website → SFTP/SSH*. Voeg ze in GitHub toe onder
+*Settings → Secrets and variables → Actions*. Vul ze zelf in; ze zijn daarna
+niet meer leesbaar.
 
-- `TRANSIP_FTP_HOST`: het FTP-adres uit je controlepaneel
-- `TRANSIP_FTP_USER`: de FTP-gebruikersnaam
-- `TRANSIP_FTP_PASSWORD`: het FTP-wachtwoord
+- `TRANSIP_FTP_HOST`: de host uit het SFTP/SSH-scherm, alleen de naam zonder
+  `sftp://` ervoor en zonder poortnummer erachter
+- `TRANSIP_FTP_USER`: de gebruikersnaam uit datzelfde scherm
+- `TRANSIP_FTP_PASSWORD`: het bijbehorende wachtwoord
 
 Wijkt je DocumentRoot af van `/www`, zet dan onder hetzelfde menu bij *Variables*
 een `TRANSIP_DOCUMENTROOT` met het juiste pad.
