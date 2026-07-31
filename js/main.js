@@ -28,10 +28,9 @@
     });
   }
 
-  // Stand van de inzameling tonen.
-  // data/voortgang.json wordt elk uur bijgewerkt door een GitHub Action.
-  // Ontbreekt het bestand of is het verouderd, dan blijft het blok verborgen:
-  // liever geen cijfer dan een verkeerd cijfer op een doneerpagina.
+  // Stand van de inzameling tonen. De bron wordt hieronder bij haalStand
+  // bepaald. Ontbreken de gegevens of zijn ze verouderd, dan blijft het blok
+  // verborgen: liever geen cijfer dan een verkeerd cijfer op een doneerpagina.
   var MAX_LEEFTIJD_UREN = 24;
 
   function toonVoortgang(stand) {

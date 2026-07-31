@@ -11,3 +11,6 @@ Profielfoto*.jpg
 
 # Door voortgang.php aangemaakte cache hoort niet in de repo.
 data/voortgang-cache.json
+
+# Het zipbestand is een bouwsel, geen bron.
+website.zip

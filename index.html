@@ -122,8 +122,9 @@
         <a class="btn btn-ghost" href="#verhaal">Lees mijn verhaal</a>
       </div>
 
-      <!-- Stand van de actie. Wordt gevuld vanuit data/voortgang.json,
-           net als het blok in de doneersectie. Blijft verborgen zonder data. -->
+      <!-- Stand van de actie, kort samengevat. Wordt uit dezelfde bron gevuld
+           als het uitgebreide blok in de doneersectie. Blijft verborgen zonder
+           bruikbare gegevens. -->
       <div class="hero-status" id="hero-status" hidden>
         <div class="hero-status-balk" role="progressbar" id="hero-status-balk"
              aria-valuemin="0" aria-valuemax="100" aria-label="Voortgang van de inzameling">
@@ -407,9 +408,11 @@
             </svg>
             <p class="widget-title">De actie staat open</p>
 
-            <!-- Voortgang. De cijfers komen uit data/voortgang.json, dat elk uur
-                 automatisch wordt bijgewerkt door .github/workflows/voortgang.yml.
-                 Lukt het laden niet, dan blijft dit blok verborgen. -->
+            <!-- Voortgang. js/main.js haalt de cijfers op via data/voortgang.php,
+                 dat de stand rechtstreeks bij doneeractie.nl opvraagt en een uur
+                 bewaart. Draait er geen PHP, zoals op GitHub Pages, dan valt het
+                 terug op data/voortgang.json, dat door de GitHub Action wordt
+                 bijgewerkt. Zonder bruikbare gegevens blijft dit blok verborgen. -->
             <div class="voortgang" id="voortgang" hidden>
               <div class="voortgang-cijfers">
                 <span class="voortgang-bedrag" id="voortgang-bedrag"></span>
