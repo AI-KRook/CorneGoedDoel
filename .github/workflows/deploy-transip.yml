@@ -113,7 +113,10 @@ jobs:
           HOST: ${{ secrets.TRANSIP_FTP_HOST }}
           GEBRUIKER: ${{ secrets.TRANSIP_FTP_USER }}
           SSHPASS: ${{ secrets.TRANSIP_FTP_PASSWORD }}
-          MAP: ${{ vars.TRANSIP_DOCUMENTROOT || '/www' }}
+          # Relatief pad: na inloggen land je in je thuismap, waarin www staat.
+          # Een absoluut /www werkt alleen als de sessie naar de thuismap is
+          # afgeschermd, relatief werkt in beide gevallen.
+          MAP: ${{ vars.TRANSIP_DOCUMENTROOT || 'www' }}
         run: |
           lftp -c "
             set sftp:connect-program 'sshpass -e ssh -a -x';
