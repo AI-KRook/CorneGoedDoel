@@ -83,10 +83,22 @@
     });
   }
 
-  fetch('data/voortgang.json', { cache: 'no-cache' })
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-    .then(toonVoortgang)
-    .catch(function () { /* stil falen: de doneerknop werkt hoe dan ook */ });
+  // Eerst het PHP-script proberen: dat haalt de actuele stand rechtstreeks bij
+  // doneeractie.nl op en werkt dus zonder dat er iets bijgewerkt hoeft te worden.
+  // Draait de site op een server zonder PHP, zoals GitHub Pages, dan valt hij
+  // terug op het JSON-bestand.
+  function haalStand(bronnen) {
+    if (!bronnen.length) return;
+    fetch(bronnen[0], { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (stand) {
+        if (stand && stand.streefbedrag) { toonVoortgang(stand); }
+        else { haalStand(bronnen.slice(1)); }
+      })
+      .catch(function () { haalStand(bronnen.slice(1)); });
+  }
+
+  haalStand(['data/voortgang.php', 'data/voortgang.json']);
 
   // Secties zacht laten verschijnen bij scrollen
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

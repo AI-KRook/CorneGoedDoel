@@ -60,7 +60,28 @@ De actie is aangemaakt en staat open:
 De knop **"Doneer nu"** in de sectie `#doneren` gaat rechtstreeks naar het
 doneerformulier (`/donate`), zodat bezoekers niet eerst langs de actiepagina hoeven.
 
-### Automatische voortgangsbalk
+### Voortgangsbalk op TransIP: via PHP
+
+Op TransIP werkt de teller zonder GitHub en zonder cronjob. `data/voortgang.php`
+haalt de stand rechtstreeks bij doneeractie.nl op en bewaart die een uur in
+`data/voortgang-cache.json`. De eerste bezoeker na dat uur ververst de gegevens.
+
+Waarom via de server en niet in de browser: doneeractie.nl stuurt geen
+CORS-header mee, dus de browser mag die pagina niet rechtstreeks ophalen. Vanaf
+de server speelt die beperking niet.
+
+`js/main.js` probeert eerst `data/voortgang.php` en valt terug op
+`data/voortgang.json`. Zo werkt het op TransIP via PHP en op GitHub Pages, waar
+geen PHP draait, via het bestand dat de workflow bijhoudt.
+
+Voorwaarden: PHP met cURL of `allow_url_fopen`, en schrijfrechten in de map
+`data`. Lukt schrijven niet, dan werkt de teller nog steeds, alleen wordt er dan
+bij elk bezoek opnieuw opgehaald.
+
+Het streefbedrag komt uit doneeractie.nl zelf, dus dat hoeft nergens handmatig
+te worden bijgehouden.
+
+### Automatische voortgangsbalk (voor GitHub Pages)
 
 De site toont het opgehaalde bedrag, het streefbedrag en het percentage in de
 eigen huisstijl. Dat werkt zo:
