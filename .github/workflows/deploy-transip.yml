@@ -60,37 +60,60 @@ jobs:
       - name: lftp en sshpass installeren
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp sshpass
 
+      - name: Serversleutel ophalen en bereikbaarheid controleren
+        env:
+          HOST: ${{ secrets.TRANSIP_FTP_HOST }}
+        run: |
+          if printf '%s' "$HOST" | grep -qE '://|:[0-9]+$|/'; then
+            echo "::error::TRANSIP_FTP_HOST bevat een protocol, poort of pad. Vul alleen de hostnaam in, bijvoorbeeld iets.ssh.transip.me"
+            exit 1
+          fi
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          if ! ssh-keyscan -T 15 -p 22 "$HOST" >> ~/.ssh/known_hosts 2>/dev/null; then
+            echo "::error::Kan geen SSH-verbinding openen met de opgegeven host. Controleer TRANSIP_FTP_HOST."
+            exit 1
+          fi
+          if [ ! -s ~/.ssh/known_hosts ]; then
+            echo "::error::De host antwoordt niet op poort 22. Klopt de hostnaam uit het SFTP/SSH-scherm?"
+            exit 1
+          fi
+          chmod 600 ~/.ssh/known_hosts
+          echo "Server bereikbaar, sleutel opgeslagen."
+
       - name: Verbinding testen en doelmap tonen
         env:
           HOST: ${{ secrets.TRANSIP_FTP_HOST }}
-          USER: ${{ secrets.TRANSIP_FTP_USER }}
+          GEBRUIKER: ${{ secrets.TRANSIP_FTP_USER }}
           SSHPASS: ${{ secrets.TRANSIP_FTP_PASSWORD }}
         run: |
-          # sshpass -e leest het wachtwoord uit $SSHPASS, zodat het nergens
-          # in een commandoregel of lftp-instelling terechtkomt.
+          # sshpass -e leest het wachtwoord uit $SSHPASS, zodat het nergens in
+          # een commandoregel of lftp-instelling terechtkomt die in het log komt.
           lftp -c "
-            set sftp:connect-program 'sshpass -e ssh -a -x -o StrictHostKeyChecking=accept-new';
-            set net:max-retries 2;
+            set sftp:connect-program 'sshpass -e ssh -a -x';
+            set net:max-retries 1;
             set net:timeout 20;
-            open -u '$USER', sftp://$HOST;
-            echo 'Verbonden. Huidige map:';
+            open sftp://$GEBRUIKER@$HOST;
+            echo '--- huidige map ---';
             pwd;
-            echo 'Inhoud:';
+            echo '--- inhoud ---';
             ls;
-          "
+          " || {
+            echo "::error::Inloggen mislukt. Controleer gebruikersnaam en wachtwoord uit Webhosting > je domein > Website > SFTP/SSH."
+            exit 1
+          }
 
       - name: Uploaden via SFTP
         env:
           HOST: ${{ secrets.TRANSIP_FTP_HOST }}
-          USER: ${{ secrets.TRANSIP_FTP_USER }}
+          GEBRUIKER: ${{ secrets.TRANSIP_FTP_USER }}
           SSHPASS: ${{ secrets.TRANSIP_FTP_PASSWORD }}
           MAP: ${{ vars.TRANSIP_DOCUMENTROOT || '/www' }}
         run: |
           lftp -c "
-            set sftp:connect-program 'sshpass -e ssh -a -x -o StrictHostKeyChecking=accept-new';
-            set net:max-retries 2;
+            set sftp:connect-program 'sshpass -e ssh -a -x';
+            set net:max-retries 1;
             set net:timeout 20;
-            open -u '$USER', sftp://$HOST;
+            open sftp://$GEBRUIKER@$HOST;
             mirror --reverse --verbose --parallel=2 \
                    --exclude-glob .git* \
                    _site '$MAP';
