@@ -112,6 +112,73 @@ een knop) zijn.
 De widget toont dan de doneerknop met de actuele stand van de teller en de
 laatste donaties.
 
+## Publiceren naar TransIP
+
+De site is volledig statisch en gebruikt alleen relatieve paden, dus hij draait
+op elke webserver zonder aanpassingen. Er is geen PHP, database of build-step nodig.
+
+### Wat je nodig hebt in het TransIP-controlepaneel
+
+| Instelling | Waarde |
+|---|---|
+| DocumentRoot | `/www` (de standaard) |
+| Protocol | SFTP of FTPS, geen onversleutelde FTP |
+| SSL | Let's Encrypt aanzetten bij *Domeinen & SSL* |
+| PHP | niet nodig |
+| Database | niet nodig |
+
+Zet daarnaast een omleiding van `http` naar `https` aan, en kies of `www.` naar
+de kale domeinnaam wijst of andersom. Eén van de twee moet doorverwijzen, anders
+staat dezelfde site op twee adressen.
+
+### Automatisch publiceren vanuit GitHub
+
+`.github/workflows/deploy-transip.yml` uploadt de site na elke wijziging. Dat is
+belangrijker dan het lijkt: de voortgangsbalk wordt elk uur bijgewerkt door een
+andere workflow, en zonder automatische publicatie zou de teller op TransIP
+blijven staan op de stand van je laatste handmatige upload.
+
+Voeg in GitHub onder *Settings → Secrets and variables → Actions* deze drie
+secrets toe. Vul ze zelf in; ze zijn daarna niet meer leesbaar.
+
+- `TRANSIP_FTP_HOST`: het FTP-adres uit je controlepaneel
+- `TRANSIP_FTP_USER`: de FTP-gebruikersnaam
+- `TRANSIP_FTP_PASSWORD`: het FTP-wachtwoord
+
+Wijkt je DocumentRoot af van `/www`, zet dan onder hetzelfde menu bij *Variables*
+een `TRANSIP_DOCUMENTROOT` met het juiste pad.
+
+Test daarna één keer handmatig via *Actions → Website publiceren naar TransIP →
+Run workflow*.
+
+De workflow verwijdert bewust geen bestanden op de server. Wil je dat oude
+bestanden wél opgeruimd worden, voeg dan `--delete` toe aan het `mirror`-commando.
+Controleer eerst of er niets anders in `/www` staat.
+
+### Handmatig uploaden
+
+Kan ook, bijvoorbeeld met FileZilla via SFTP. Upload dan naar `/www`:
+
+```
+index.html
+css/
+js/
+images/
+data/
+```
+
+`README.md`, `scripts/`, `.github/` en `.claude/` horen niet op de webserver.
+
+### Alternatief: alleen de domeinnaam bij TransIP
+
+Wil je vooral een eigen domeinnaam en niet per se TransIP als webserver, dan kun
+je het domein bij TransIP registreren en laten wijzen naar GitHub Pages. Dan
+blijft alles werken zoals het nu doet, zonder FTP-koppeling. Zet in de DNS van
+TransIP vier A-records voor `@` naar de adressen van GitHub Pages en een
+CNAME voor `www` naar `ai-krook.github.io`, en vul het domein in onder
+*Settings → Pages → Custom domain*. De actuele IP-adressen staan in de
+[documentatie van GitHub](https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site).
+
 ## Publiceren via GitHub Pages
 
 1. Push deze repository naar GitHub (`main` branch)

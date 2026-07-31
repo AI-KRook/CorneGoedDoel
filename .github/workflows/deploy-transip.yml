@@ -1,0 +1,63 @@
+name: Website publiceren naar TransIP
+
+# Draait bij elke wijziging in de site, en daarnaast elk uur.
+# Dat uurlijkse ritme is nodig omdat de commits van de voortgang-workflow
+# met de standaard GITHUB_TOKEN worden gedaan, en zulke commits starten
+# bewust geen andere workflows. Zonder dit schema zou de teller op TransIP
+# blijven hangen op de stand van de laatste handmatige wijziging.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "css/**"
+      - "js/**"
+      - "images/**"
+      - "data/**"
+      - ".github/workflows/deploy-transip.yml"
+  schedule:
+    - cron: "35 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-transip
+  cancel-in-progress: false
+
+jobs:
+  publiceren:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publicatiemap samenstellen
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp -r css js images data _site/
+          echo "Te publiceren bestanden:"
+          find _site -type f | sort
+
+      - name: lftp installeren
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Uploaden via FTPS
+        env:
+          HOST: ${{ secrets.TRANSIP_FTP_HOST }}
+          USER: ${{ secrets.TRANSIP_FTP_USER }}
+          PASS: ${{ secrets.TRANSIP_FTP_PASSWORD }}
+          MAP: ${{ vars.TRANSIP_DOCUMENTROOT || '/www' }}
+        run: |
+          if [ -z "$HOST" ] || [ -z "$USER" ] || [ -z "$PASS" ]; then
+            echo "::error::Secrets TRANSIP_FTP_HOST, TRANSIP_FTP_USER of TRANSIP_FTP_PASSWORD ontbreken."
+            exit 1
+          fi
+          lftp -c "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate true;
+            open -u '$USER','$PASS' '$HOST';
+            mirror --reverse --verbose --parallel=4 \
+                   --exclude-glob .git* \
+                   _site '$MAP';
+          "
+          echo "Klaar. De site staat op TransIP."
