@@ -22,7 +22,7 @@ De site is volledig statisch en werkt zonder build-step. Openen kan door
 Alle placeholders zijn ingevuld. De site bevat nu:
 
 - **Rekeningnummer** `NL79 SNSB 8848 2067 19` (SNS Bank), in de doneersectie
-- **Contactadres** `cvangils45@gmail.com`, onderin de footer
+- **Contactadres** `info@cornelooptvoordvnonderzoek.nl`, onderin de footer
 - **Foto's** van Corné (`images/corne.jpg`) en Maud (`images/maud.jpg`)
 
 Wijzigt het rekeningnummer, controleer een nieuw nummer dan altijd eerst op de
