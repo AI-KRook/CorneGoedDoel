@@ -9,18 +9,26 @@ name: Website publiceren naar TransIP
 # GITHUB_TOKEN worden gedaan, en zulke commits starten bewust geen andere
 # workflows. Zonder dit schema zou de teller op TransIP blijven hangen op de
 # stand van de laatste handmatige wijziging.
+# Alleen handmatig, via Actions > Website publiceren naar TransIP > Run workflow.
+#
+# De automatische triggers staan uit zolang SFTP-inloggen niet werkt: anders
+# draait dit elk uur en levert het telkens een foutmelding op. Werkt inloggen
+# wel, zet de onderstaande blokken dan weer aan. Het uurschema is nodig omdat
+# commits van de voortgang-workflow met de standaard GITHUB_TOKEN bewust geen
+# andere workflows starten.
+#
+#  push:
+#    branches: [main]
+#    paths:
+#      - "index.html"
+#      - "css/**"
+#      - "js/**"
+#      - "images/**"
+#      - "data/**"
+#      - ".github/workflows/deploy-transip.yml"
+#  schedule:
+#    - cron: "35 * * * *"
 on:
-  push:
-    branches: [main]
-    paths:
-      - "index.html"
-      - "css/**"
-      - "js/**"
-      - "images/**"
-      - "data/**"
-      - ".github/workflows/deploy-transip.yml"
-  schedule:
-    - cron: "35 * * * *"
   workflow_dispatch:
 
 concurrency:
