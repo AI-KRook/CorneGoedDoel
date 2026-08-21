@@ -70,6 +70,27 @@ gewoon. Liever geen bedrag dan een verkeerd bedrag op een doneerpagina.
 Wijzigt de actiepagina ooit van adres, pas dan `STAND_URL` bovenin
 `js/main.js` aan.
 
+### Laatste donaties met een bericht
+
+Onder de doneerknop staan de drie meest recente donaties die een persoonlijk
+bericht hebben. Die lijst komt van een andere bron dan de totalen:
+
+    https://frontend-api.kentaa.nl/donations?action_id=MAYDrxYe6fKK
+
+Die API vereist de header `X-Site-Id: mH9ARTHYekJu` en stuurt géén CORS-headers
+mee, dus de browser mag hem niet rechtstreeks aanroepen. Daarom loopt dit via
+`data/donaties.php`, dat het antwoord tien minuten bewaart.
+
+Gevolg: dit blok werkt alleen op een server met PHP. Op GitHub Pages blijft het
+verborgen, de rest van de pagina werkt daar gewoon.
+
+Berichten zijn door donateurs zelf getypt. `js/main.js` zet ze uitsluitend via
+`textContent` op de pagina, nooit via `innerHTML`, zodat er geen HTML of
+JavaScript uit een bericht kan worden uitgevoerd. Laat dat zo.
+
+Anonieme donateurs heten bij UM Crowd al "Anoniem"; er is geen apart veld dat
+uitgelezen hoeft te worden.
+
 ## Publiceren naar TransIP
 
 De site is volledig statisch en gebruikt alleen relatieve paden, dus hij draait

@@ -9,8 +9,8 @@ Profielfoto*.jpg
 # Bronbestanden met persoonlijke verhalen horen niet in de repo.
 *.docx
 
-# Door voortgang.php aangemaakte cache hoort niet in de repo.
-data/voortgang-cache.json
+# Door donaties.php aangemaakte cache hoort niet in de repo.
+data/donaties-cache.json
 
 # Het zipbestand is een bouwsel, geen bron.
 website.zip

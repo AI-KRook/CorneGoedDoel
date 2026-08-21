@@ -463,6 +463,18 @@
           </div>
         </div>
 
+        <!-- Laatste donaties met een persoonlijk bericht. De donatielijst van
+             UM Crowd zit achter een API die geen cross-origin verkeer toestaat,
+             dus die loopt via data/donaties.php. Draait er geen PHP, dan blijft
+             dit blok verborgen. -->
+        <div class="steunbetuigingen" id="steunbetuigingen" hidden>
+          <p class="steunbetuigingen-titel">Wat anderen erbij schreven</p>
+          <ul id="steunbetuigingen-lijst"></ul>
+          <p class="steunbetuigingen-bron">
+            <a href="https://www.umcrowd.nl/fundraisers/corne-van-gils" target="_blank" rel="noopener">Bekijk alle donaties op UM Crowd</a>
+          </p>
+        </div>
+
       </div>
     </section>
 

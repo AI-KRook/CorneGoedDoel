@@ -738,6 +738,63 @@ a:hover { color: var(--accent); }
   color: var(--accent);
 }
 
+/* ---------- steunbetuigingen bij donaties ---------- */
+
+.steunbetuigingen {
+  max-width: 34rem;
+  margin: 2.5rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  text-align: left;
+}
+
+.steunbetuigingen-titel {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+}
+
+.steunbetuigingen ul {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+.steunbetuigingen li {
+  padding: 1.15rem 1.35rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.steun-bericht {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.steun-bericht::before { content: "\201C"; }
+.steun-bericht::after { content: "\201D"; }
+
+.steun-wie {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.steun-wie strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.steunbetuigingen-bron {
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+}
+
 /* ---------- delen ---------- */
 
 .share-actions {

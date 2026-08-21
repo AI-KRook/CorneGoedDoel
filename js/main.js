@@ -96,6 +96,48 @@
     })
     .catch(function () { /* stil falen: de doneerknop werkt hoe dan ook */ });
 
+  // Laatste donaties met een persoonlijk bericht. Loopt via een PHP-script,
+  // omdat de donatielijst van UM Crowd geen cross-origin verkeer toestaat.
+  // Berichten zijn door donateurs getypt, dus ze gaan uitsluitend via
+  // textContent de pagina in en nooit via innerHTML.
+  fetch('data/donaties.php', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function (data) {
+      var lijst = (data && data.donaties) || [];
+      if (!lijst.length) return;
+
+      var euro = new Intl.NumberFormat('nl-NL', {
+        style: 'currency', currency: 'EUR', minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      });
+      var doel = document.getElementById('steunbetuigingen-lijst');
+
+      lijst.forEach(function (d) {
+        var li = document.createElement('li');
+
+        var q = document.createElement('p');
+        q.className = 'steun-bericht';
+        q.textContent = d.bericht;
+
+        var wie = document.createElement('p');
+        wie.className = 'steun-wie';
+        var naam = document.createElement('span');
+        naam.textContent = d.naam || 'Anoniem';
+        var bedrag = document.createElement('strong');
+        bedrag.textContent = euro.format(Number(d.bedrag) || 0);
+        wie.appendChild(naam);
+        wie.appendChild(document.createTextNode(' · '));
+        wie.appendChild(bedrag);
+
+        li.appendChild(q);
+        li.appendChild(wie);
+        doel.appendChild(li);
+      });
+
+      document.getElementById('steunbetuigingen').hidden = false;
+    })
+    .catch(function () { /* stil falen: zonder PHP blijft het blok verborgen */ });
+
   // Secties zacht laten verschijnen bij scrollen
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduceMotion && 'IntersectionObserver' in window) {
