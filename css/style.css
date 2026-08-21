@@ -101,7 +101,8 @@ a:hover { color: var(--accent); }
 .container.narrow > ol,
 .container.narrow > .proof,
 .container.narrow > .symptoms,
-.container.narrow > .eigen-woorden {
+.container.narrow > .eigen-woorden,
+.container.narrow > .citaat {
   max-width: var(--maat-tekst);
 }
 
@@ -511,6 +512,36 @@ a:hover { color: var(--accent); }
   background: var(--accent);
 }
 
+/* ---------- citaat in een lichte sectie ---------- */
+
+.citaat {
+  margin: 2.25rem 0;
+  padding: 1.75rem 2rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+}
+
+.citaat p {
+  color: var(--ink-soft);
+  font-size: 1rem;
+}
+
+.citaat p:first-of-type::before { content: "\201C"; }
+.citaat p:last-of-type::after { content: "\201D"; }
+
+.citaat cite {
+  display: block;
+  margin-top: 1rem;
+  font-style: normal;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+
 /* ---------- uitgelicht onderzoeksresultaat ---------- */
 
 .proof {
@@ -575,42 +606,6 @@ a:hover { color: var(--accent); }
 .fact p {
   font-size: 0.9375rem;
   color: var(--ink-soft);
-}
-
-/* ---------- besteding / route ---------- */
-
-.route {
-  list-style: none;
-  margin-top: 2.5rem;
-  display: grid;
-  gap: 0;
-}
-
-.route li {
-  display: flex;
-  gap: 1.25rem;
-  align-items: flex-start;
-  padding: 1.5rem 0;
-  border-top: 1px solid var(--line);
-}
-
-.route li:last-child { border-bottom: 1px solid var(--line); }
-
-.route li div { color: var(--ink-soft); }
-.route li strong { color: var(--ink); }
-
-.route-step {
-  flex-shrink: 0;
-  width: 2.25rem;
-  height: 2.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--accent);
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.9375rem;
-  border-radius: var(--radius);
 }
 
 /* ---------- doneren ---------- */
@@ -741,56 +736,6 @@ a:hover { color: var(--accent); }
   width: 15px;
   flex-shrink: 0;
   color: var(--accent);
-}
-
-/* ---------- geven zonder platformkosten ---------- */
-
-.gift-alternatief {
-  max-width: 34rem;
-  margin: 2.5rem auto 0;
-  padding-top: 2rem;
-  border-top: 1px solid var(--line);
-  text-align: left;
-}
-
-.gift-alternatief-titel {
-  font-weight: 700;
-  margin-bottom: 0.6rem;
-}
-
-.gift-alternatief-tekst {
-  font-size: 0.9375rem;
-  color: var(--ink-soft);
-}
-
-.gift-optie {
-  margin-top: 1.5rem;
-  padding: 1.25rem 1.5rem;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-}
-
-.gift-optie-label {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-}
-
-.iban {
-  font-size: 1.125rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  font-variant-numeric: tabular-nums;
-}
-
-.gift-optie-noot {
-  margin-top: 0.4rem;
-  font-size: 0.8125rem;
-  color: var(--ink-soft);
 }
 
 /* ---------- delen ---------- */

@@ -28,19 +28,16 @@
     });
   }
 
-  // Stand van de inzameling tonen. De bron wordt hieronder bij haalStand
-  // bepaald. Ontbreken de gegevens of zijn ze verouderd, dan blijft het blok
-  // verborgen: liever geen cijfer dan een verkeerd cijfer op een doneerpagina.
-  var MAX_LEEFTIJD_UREN = 24;
+  // Stand van de inzameling tonen. UM Crowd biedt de cijfers als JSON aan en
+  // staat cross-origin verkeer toe, dus de browser haalt ze rechtstreeks op.
+  // Lukt dat niet, dan blijft het blok verborgen: liever geen cijfer dan een
+  // verkeerd cijfer op een doneerpagina.
+  var STAND_URL = 'https://www.umcrowd.nl/fundraisers/corne-van-gils.json';
 
   function toonVoortgang(stand) {
     var doel = Number(stand.streefbedrag);
     var opgehaald = Number(stand.opgehaald);
     if (!isFinite(doel) || doel <= 0 || !isFinite(opgehaald) || opgehaald < 0) return;
-
-    var bijgewerkt = new Date(stand.bijgewerkt);
-    var urenOud = (Date.now() - bijgewerkt.getTime()) / 36e5;
-    if (!isFinite(urenOud) || urenOud > MAX_LEEFTIJD_UREN) return;
 
     var percentage = Math.round((opgehaald / doel) * 100);
     // Een klein bedrag rondt af naar 0%, wat leest alsof er niets binnen is.
@@ -86,22 +83,18 @@
     });
   }
 
-  // Eerst het PHP-script proberen: dat haalt de actuele stand rechtstreeks bij
-  // doneeractie.nl op en werkt dus zonder dat er iets bijgewerkt hoeft te worden.
-  // Draait de site op een server zonder PHP, zoals GitHub Pages, dan valt hij
-  // terug op het JSON-bestand.
-  function haalStand(bronnen) {
-    if (!bronnen.length) return;
-    fetch(bronnen[0], { cache: 'no-cache' })
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (stand) {
-        if (stand && stand.streefbedrag) { toonVoortgang(stand); }
-        else { haalStand(bronnen.slice(1)); }
-      })
-      .catch(function () { haalStand(bronnen.slice(1)); });
-  }
-
-  haalStand(['data/voortgang.php', 'data/voortgang.json']);
+  fetch(STAND_URL, { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function (data) {
+      var a = data && data.action;
+      if (!a) return;
+      toonVoortgang({
+        opgehaald: a.total_amount,        // komt als tekst binnen, Number() vangt dat
+        streefbedrag: a.target_amount,
+        donaties: a.total_donations
+      });
+    })
+    .catch(function () { /* stil falen: de doneerknop werkt hoe dan ook */ });
 
   // Secties zacht laten verschijnen bij scrollen
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

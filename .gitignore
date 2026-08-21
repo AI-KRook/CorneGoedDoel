@@ -14,3 +14,6 @@ data/voortgang-cache.json
 
 # Het zipbestand is een bouwsel, geen bron.
 website.zip
+
+# Losse zipbestanden zijn bouwsels, geen bron.
+*.zip

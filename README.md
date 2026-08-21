@@ -19,19 +19,12 @@ De site is volledig statisch en werkt zonder build-step. Openen kan door
 
 ## Gegevens op de site
 
-Alle placeholders zijn ingevuld. De site bevat nu:
-
-- **Rekeningnummer** `NL79 SNSB 8848 2067 19` (SNS Bank), in de doneersectie
 - **Contactadres** `info@cornelooptvoordvnonderzoek.nl`, onderin de footer
 - **Foto's** van Corné (`images/corne.jpg`) en Maud (`images/maud.jpg`)
+- **Doneren** loopt via UM Crowd, zie hieronder
 
-Wijzigt het rekeningnummer, controleer een nieuw nummer dan altijd eerst op de
-IBAN-checksum voordat je het publiceert. Een fout nummer op een openbare
-doneerpagina betekent dat geld bij de verkeerde terechtkomt:
-
-```bash
-python -c "s='NL79SNSB8848206719'; print('geldig' if len(s)==18 and int(''.join(str(int(c,36)) for c in s[4:]+s[:4]))%97==1 else 'ONGELDIG')"
-```
+Het rekeningnummer en het losse kenmerk voor giften aan het fonds zijn vervallen:
+alle donaties lopen nu via de actiepagina op UM Crowd.
 
 ## Foto's toevoegen of vervangen
 
@@ -51,87 +44,31 @@ python -c "from PIL import Image; im=Image.open('origineel.jpg'); W,H=im.size; w
 Originele bestanden met de naam `Profielfoto*.jpg` worden via `.gitignore`
 buiten de repo gehouden.
 
-## Doneeractie.nl
+## Doneren via UM Crowd
 
-De actie is aangemaakt en staat open:
+Doneren loopt via UM Crowd, de crowdfundingsite van Stichting Universiteitsfonds
+Limburg / SWOL:
 
-<https://www.doneeractie.nl/ik-loop-42195-kilometer-voor-mijn-nichtje/-121531>
+- Actiepagina: <https://www.umcrowd.nl/fundraisers/corne-van-gils>
+- Doneerknop: <https://www.umcrowd.nl/fundraisers/corne-van-gils/donate>
 
-De knop **"Doneer nu"** in de sectie `#doneren` gaat rechtstreeks naar het
-doneerformulier (`/donate`), zodat bezoekers niet eerst langs de actiepagina hoeven.
+### De voortgangsbalk
 
-### Voortgangsbalk op TransIP: via PHP
+UM Crowd draait op Kentaa en biedt de stand aan als JSON op de actiepagina met
+`.json` erachter:
 
-Op TransIP werkt de teller zonder GitHub en zonder cronjob. `data/voortgang.php`
-haalt de stand rechtstreeks bij doneeractie.nl op en bewaart die een uur in
-`data/voortgang-cache.json`. De eerste bezoeker na dat uur ververst de gegevens.
+    https://www.umcrowd.nl/fundraisers/corne-van-gils.json
 
-Waarom via de server en niet in de browser: doneeractie.nl stuurt geen
-CORS-header mee, dus de browser mag die pagina niet rechtstreeks ophalen. Vanaf
-de server speelt die beperking niet.
+Daar staan `total_amount`, `target_amount` en `total_donations` in. Die bron
+staat cross-origin verkeer toe, dus `js/main.js` haalt de cijfers rechtstreeks
+uit de browser op. Er is dus **geen** PHP, cronjob of GitHub Action nodig: de
+teller is altijd actueel, op elke webserver.
 
-`js/main.js` probeert eerst `data/voortgang.php` en valt terug op
-`data/voortgang.json`. Zo werkt het op TransIP via PHP en op GitHub Pages, waar
-geen PHP draait, via het bestand dat de workflow bijhoudt.
+Lukt het ophalen niet, dan blijft de balk verborgen en werkt de doneerknop
+gewoon. Liever geen bedrag dan een verkeerd bedrag op een doneerpagina.
 
-Voorwaarden: PHP met cURL of `allow_url_fopen`, en schrijfrechten in de map
-`data`. Lukt schrijven niet, dan werkt de teller nog steeds, alleen wordt er dan
-bij elk bezoek opnieuw opgehaald.
-
-Het streefbedrag komt uit doneeractie.nl zelf, dus dat hoeft nergens handmatig
-te worden bijgehouden.
-
-### Automatische voortgangsbalk (voor GitHub Pages)
-
-De site toont het opgehaalde bedrag, het streefbedrag en het percentage in de
-eigen huisstijl. Dat werkt zo:
-
-1. `scripts/haal-stand-op.py` leest de widget van doneeractie.nl uit en schrijft
-   `data/voortgang.json`
-2. `.github/workflows/voortgang.yml` draait dat script elk uur en commit het
-   resultaat als de stand is gewijzigd
-3. `js/main.js` leest de JSON en vult twee blokken: de compacte statusbalk in de
-   header en de uitgebreide versie in de doneersectie
-
-Handmatig verversen kan met:
-
-```bash
-python scripts/haal-stand-op.py
-```
-
-Het streefbedrag komt uit doneeractie.nl zelf, dus dat hoeft nergens handmatig
-te worden bijgehouden.
-
-**Belangrijk:** de workflow commit naar `main`. Dat lukt alleen als in de
-repository onder *Settings → Actions → General → Workflow permissions* de optie
-**Read and write permissions** aanstaat.
-
-Als het bestand ontbreekt, het laden mislukt of de stand ouder is dan 24 uur,
-blijft de balk verborgen en werkt de doneerknop gewoon. Liever geen bedrag dan
-een verkeerd bedrag op een doneerpagina.
-
-### Alternatief: de officiële widget van doneeractie.nl
-
-Wil je liever de widget van het platform zelf (met eigen vormgeving), plak dan
-dit in `index.html` op de plek van `<div class="widget-placeholder">`:
-
-```html
-<div id="doneeractie_donatiemodule" data-size="2" data-donationactionid="121531"></div>
-<script type="text/javascript" src="https://www.doneeractie.nl/widgets/widget.js?2"></script>
-```
-
-`data-size` kan 1 (350x405, met actiefoto), 2 (350x245) of 3 (210x75, alleen
-een knop) zijn.
-
-1. Ga naar de actiepagina op doneeractie.nl
-2. Klik op **"Website widget"**
-3. Kies hoeveel recente donaties je wilt tonen
-4. Kopieer de code
-5. Plak die in `index.html` in de sectie `#doneren`, op de plek van
-   `<div class="widget-placeholder">...</div>` (zie de comment `DONEERACTIE.NL WIDGET`)
-
-De widget toont dan de doneerknop met de actuele stand van de teller en de
-laatste donaties.
+Wijzigt de actiepagina ooit van adres, pas dan `STAND_URL` bovenin
+`js/main.js` aan.
 
 ## Publiceren naar TransIP
 
@@ -154,10 +91,12 @@ staat dezelfde site op twee adressen.
 
 ### Automatisch publiceren vanuit GitHub
 
-`.github/workflows/deploy-transip.yml` uploadt de site na elke wijziging. Dat is
-belangrijker dan het lijkt: de voortgangsbalk wordt elk uur bijgewerkt door een
-andere workflow, en zonder automatische publicatie zou de teller op TransIP
-blijven staan op de stand van je laatste handmatige upload.
+`.github/workflows/deploy-transip.yml` uploadt de site naar TransIP. De workflow
+staat nu op handmatig starten, omdat SFTP-inloggen nog niet werkte; de
+oorspronkelijke triggers staan als commentaar in het bestand.
+
+De voortgangsbalk hangt hier niet meer aan vast: die haalt de stand rechtstreeks
+bij UM Crowd op, dus die blijft actueel ook zonder publicatie.
 
 De gegevens vind je in het TransIP-controlepaneel onder
 *Webhosting → je domein → Website → SFTP/SSH*. Voeg ze in GitHub toe onder
@@ -188,10 +127,9 @@ index.html
 css/
 js/
 images/
-data/
 ```
 
-`README.md`, `scripts/`, `.github/` en `.claude/` horen niet op de webserver.
+`README.md`, `.github/` en `.claude/` horen niet op de webserver.
 
 ### Alternatief: alleen de domeinnaam bij TransIP
 
